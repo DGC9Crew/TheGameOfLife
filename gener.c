@@ -1,10 +1,8 @@
-/******************************************************************************
-
-                            Online C Compiler.
-                Code, Compile, Run and Debug C program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
+/*
+* Created by Dgames_Crew (DGC9Crew)
+* Conway's Game of Life in C - gener.c
+* Generates the initial setup, randomly.
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -13,10 +11,11 @@ Write your code in this editor and press "Run" button to compile and execute it.
 #include <time.h>
 #include <string.h>
 
-int DIMi = 48;
-int DIMj = 1880;
-int randRate = 10;
+int DIMi = 48; //rows
+int DIMj = 1880; //columns
+int randRate = 10; //random rate -> 1/randRate chance for each tile.
 int main(int argc, char *argv[]) {
+  	// read arguments
 	for(int i = 0; i < argc; i++) {
 		char* tok = strtok(argv[i], "=");
 		char* end = strtok(NULL, "=");
@@ -28,12 +27,14 @@ int main(int argc, char *argv[]) {
 			randRate = atoi(end);
 		}
 	}
+    //write file
 	FILE *file;
 	file = fopen("gen.txt", "w");
     srand(time(NULL));
 
 	for(int i = 0; i < DIMi; i++) {
 		for(int j = 0; j < DIMj; j++) {
+            // make chance be 1/randRate
             int r = rand() % randRate;
             if(r == 0) {
               fprintf(file, "1");
