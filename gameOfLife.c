@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
 
 	int generations = 0;
     //loop for genMax times OR infinite if genMax is negative
-	while(genMax > generations && genMax >= 0) {
+	while(genMax >= generations || genMax < 0) {
         //init new array
 		int** newArr = (int**) malloc(DIMi*sizeof(int*));
     	for(int i = 0; i < DIMi; i++) {
