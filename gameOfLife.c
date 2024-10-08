@@ -1,0 +1,153 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include <string.h>
+
+int DIMi = 48;
+int DIMj = 188;
+int del = 50;
+int tileExist(int i, int j, int *** coolarr) {
+	if(i >= DIMi) {
+		i = 0;
+	}
+	if(i<0) {
+		i = DIMi-1;
+	}
+	if(j >= DIMj) {
+        j = 0;
+    }
+    if(j<0) {
+    	j = DIMj-1;
+    }
+	return (*coolarr)[i][j];
+}
+
+int main(int argc, char *argv[]) {
+	for(int i = 0; i < argc; i++) {
+		char* tok = strtok(argv[i], "=");
+		char* end = strtok(NULL, "=");
+		if(strcmp(tok, "X") == 0) {
+			DIMi = atoi(end);
+		} else if(strcmp(tok, "Y") == 0) {
+			DIMj = atoi(end);
+		} else if(strcmp(tok, "D") == 0) {
+			del = atoi(end);
+		}
+	}
+
+	int** arr = (int**) malloc(DIMi*sizeof(int*));
+	for(int i = 0; i < DIMi; i++) {
+	    arr[i] = (int*) malloc(DIMj*sizeof(int));
+	}
+	
+	int*** myArr = &arr;
+
+	FILE *file;
+	file = fopen("gen.txt", "r");
+
+	for(int i = 0; i < DIMi; i++) {
+		for(int j = 0; j < DIMj; j++) {
+			char poo = fgetc(file);
+			while(poo == '\n') {
+				poo = fgetc(file);
+			}
+
+			(*myArr)[i][j] = poo-'0';
+		}
+	}
+	fclose(file);
+
+//	(*myArr)[5][5] = 1;
+//	(*myArr)[5][6] = 1;
+//	(*myArr)[5][7] = 1;
+//
+//	(*myArr)[4][7] = 1;
+//	(*myArr)[3][6] = 1;
+//
+//	(*myArr)[25][50] = 1;
+//    (*myArr)[26][50] = 1;
+//    (*myArr)[27][50] = 1;
+//
+//    (*myArr)[26][49] = 1;
+//    (*myArr)[27][51] = 1;
+//
+//	(*myArr)[42][80] = 1;
+//	(*myArr)[43][80] = 1;
+//	(*myArr)[44][80] = 1;
+//
+//	(*myArr)[43][79] = 1;
+//	(*myArr)[44][81] = 1;
+	int generations = 0;
+	while(true) {
+		int** newArr = (int**) malloc(DIMi*sizeof(int*));
+    	for(int i = 0; i < DIMi; i++) {
+    	    newArr[i] = (int*) malloc(DIMj*sizeof(int));
+    	}
+		for(int i = 0; i < DIMi; i++) {
+			for(int j = 0; j < DIMj; j++) {
+				newArr[i][j] = 0;
+			}
+		}
+		for(int i = 0; i < DIMi; i++) {
+			for(int j = 0; j < DIMj; j++) {
+				int total = 0;
+				total += tileExist(i+1,j,myArr);
+				total += tileExist(i-1,j,myArr);
+				total += tileExist(i,j+1,myArr);
+				total += tileExist(i,j-1,myArr);
+
+				total += tileExist(i+1,j+1,myArr);
+				total += tileExist(i+1,j-1,myArr);
+				total += tileExist(i-1,j+1,myArr);
+				total += tileExist(i-1,j-1,myArr);
+				if((*myArr)[i][j] == 1) {
+					//Alive
+					if(total == 2 || total == 3) {
+						//Live on
+						newArr[i][j] = 1;
+					} else {
+						//Die
+						newArr[i][j] = 0;
+					}
+				} else if((*myArr)[i][j] == 0) {
+					//Dead
+					if(total == 3) {
+						newArr[i][j] = 1;
+					}
+				}
+				if((*myArr)[i][j] == 1) {
+					fputs("█", stdout);
+				} else {
+				//	fputs("░", stdout);
+					fputs(" ", stdout);
+				}
+				//printf("%d", (*myArr)[i][j]);
+			}
+			printf("\n");
+		}
+		//free previous update
+		for(int i = 0; i < DIMi; i++) {
+		    free((*myArr)[i]);
+		}
+		free(*myArr);
+        //rewire pointer
+		*myArr = newArr;
+	//	printf("%d\n",generations);
+        //pause
+	    usleep(del*1000);
+		generations++;
+
+	//printf("\033[2J\033[1;1H");
+	//	printf("\033[H\033[J");
+	 printf("\033[H");
+	//	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+	}
+	for(int i = 0; i < DIMi; i++) {
+                    free((*myArr)[i]);
+	}
+	free(*myArr);
+
+
+	return 0;
+}
