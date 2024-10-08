@@ -5,6 +5,7 @@ gameOfLife.c -> the simulation itself. Reads data from gen.txt for simulation.
 - Default columns is 188.
 - Default update delay (in milisec) is 50ms
 - Default # of generations is 1000.
+
 gener.c -> generates random values for the gen.txt.
 - Default rows is 45.
 - Default columns is 188.
