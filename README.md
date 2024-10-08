@@ -10,8 +10,6 @@ gener.c -> generates random values for the gen.txt.
 - Default columns is 188.
 - Default random rate is 10 (1/10 chance for alive tile)
 
-
-
 GameOfLife -> executable for gameOfLife.c || Run with ./GameOfLife
 - Args
   - X= number of rows. EX: ./GameOfLife X=60
