@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 			DIMj = atoi(end);
 		} else if(strcmp(tok, "D") == 0) {
 			del = atoi(end);
-		} else if(strcmp(tok, "G") == 1000) {
+		} else if(strcmp(tok, "G") == 0) {
          	genMax = atoi(end);
         }
 	}
