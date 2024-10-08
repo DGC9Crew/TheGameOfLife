@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 		} else if(strcmp(tok, "D") == 0) {
 			del = atoi(end);
 		} else if(strcmp(tok, "G") == 1000) {
-         	gensMax = atoi(end);
+         	genMax = atoi(end);
         }
 	}
 	//setup initial array
