@@ -1,7 +1,16 @@
 A simple version of Conway's Game of Life in C.
 
 gameOfLife.c -> the simulation itself. Reads data from gen.txt for simulation.
+- Default rows is 45.
+- Default columns is 188.
+- Default update delay (in milisec) is 50ms
+- Default # of generations is 1000.
 gener.c -> generates random values for the gen.txt.
+- Default rows is 45.
+- Default columns is 188.
+- Default random rate is 10 (1/10 chance for alive tile)
+
+
 
 GameOfLife -> executable for gameOfLife.c || Run with ./GameOfLife
 - Args
